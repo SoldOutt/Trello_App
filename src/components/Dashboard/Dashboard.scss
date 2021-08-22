@@ -1,0 +1,88 @@
+@import '../../basecss.scss';
+.dashboard {
+    padding: 20px 10px;
+    background-color: $bg-dashboard;
+    height: calc(100vh - #{$height-navbar} - #{$height-toolsbar});
+    display: flex;
+    overflow-x: scroll;
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: $bg-dashboard;
+    }
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        background-color: $bg-dashboard;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: darken($bg-dashboard, 15);
+    }
+    .column {
+        flex: 0 0 auto;
+        margin-right: 10px;
+        width: $width-column;
+        border-radius: $bd-r;
+        & > * {
+            background-color: $bg-column;
+        }
+        .header {
+            height: $height-header-column;
+            line-height: $height-header-column;
+            color: #fff;
+            border-top-left-radius: $bd-r;
+            border-top-right-radius: $bd-r;
+            padding: 0 $pd;
+        }
+        .footer {
+            height: $height-footer-column;
+            display: flex;
+            align-items: center;
+            padding: 0 $pd;
+            border-bottom-left-radius: $bd-r;
+            border-bottom-right-radius: $bd-r;
+            button {
+                background-color: transparent;
+                border: none;
+                outline: none;
+                color: #fff;
+                font-size: 1.2rem;
+                cursor: pointer;
+            }
+        }
+        ul {
+            padding: $pd;
+            list-style: none;
+            max-height: calc(
+                100% - #{$height-header-column} - #{$height-footer-column}
+            );
+            overflow-y: auto;
+            &::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                border-radius: 10px;
+                background-color: $bg-column;
+            }
+
+            &::-webkit-scrollbar {
+                width: 12px;
+                background-color: $bg-column;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                background-color: darken($bg-column, 7);
+            }
+            li {
+                background-color: #fff;
+                border-radius: $bd-r;
+                margin: 5px 0px;
+                padding: 10px;
+                box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+}
