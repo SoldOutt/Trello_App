@@ -1,14 +1,15 @@
-$bg-nav: rgb(0, 161, 8);
-$bg-toolsbar: rgb(6, 182, 0);
-$bg-dashboard: rgb(35, 190, 55);
-$bg-column: rgb(59, 82, 46);
-$bd-r: 4px;
-$pd: 10px;
-$width-column: 272px;
-$height-navbar: 50px;
-$height-toolsbar: 50px;
-$height-header-column: 40px;
-$height-footer-column: 40px;
+// $bg-nav: rgb(0, 161, 8);
+// $bg-toolsbar: rgb(6, 182, 0);
+// $bg-dashboard: rgb(35, 190, 55);
+// $bg-column: rgb(59, 82, 46);
+// $bd-r: 4px;
+// $pd: 10px;
+// $width-column: 272px;
+// $height-navbar: 50px;
+// $height-toolsbar: 50px;
+// $height-header-column: 40px;
+// $height-footer-column: 40px;
+@import './basecss.scss';
 * {
     margin: 0;
     padding: 0;
@@ -16,84 +17,4 @@ $height-footer-column: 40px;
 }
 .App {
     height: 100vh;
-
-    .navbar {
-        background-color: $bg-nav;
-        height: $height-navbar;
-    }
-    .tools_bar {
-        background-color: $bg-toolsbar;
-        height: $height-toolsbar;
-    }
-    .dashboard {
-        padding: 20px 10px;
-        background-color: $bg-dashboard;
-        height: calc(100vh - #{$height-navbar} - #{$height-toolsbar});
-        display: flex;
-        overflow-x: scroll;
-        .column {
-            flex: 0 0 auto;
-            margin-right: 10px;
-            width: $width-column;
-            border-radius: $bd-r;
-            & > * {
-                background-color: $bg-column;
-            }
-            .header {
-                height: $height-header-column;
-                line-height: $height-header-column;
-                color: #fff;
-                border-top-left-radius: $bd-r;
-                border-top-right-radius: $bd-r;
-                padding: 0 $pd;
-            }
-            .footer {
-                height: $height-footer-column;
-                display: flex;
-                align-items: center;
-                padding: 0 $pd;
-                border-bottom-left-radius: $bd-r;
-                border-bottom-right-radius: $bd-r;
-                button {
-                    background-color: transparent;
-                    border: none;
-                    outline: none;
-                    color: #fff;
-                    font-size: 1.2rem;
-                    cursor: pointer;
-                }
-            }
-            ul {
-                padding: $pd;
-                list-style: none;
-                max-height: calc(
-                    100% - #{$height-header-column} - #{$height-footer-column}
-                );
-                overflow-y: auto;
-                &::-webkit-scrollbar-track {
-                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-                    border-radius: 10px;
-                    background-color: $bg-column;
-                }
-
-                &::-webkit-scrollbar {
-                    width: 12px;
-                    background-color: $bg-column;
-                }
-
-                &::-webkit-scrollbar-thumb {
-                    border-radius: 10px;
-                    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-                    background-color: darken($bg-column, 7);
-                }
-                li {
-                    background-color: #fff;
-                    border-radius: $bd-r;
-                    margin: 5px 0px;
-                    padding: 10px;
-                    box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.1);
-                }
-            }
-        }
-    }
 }
