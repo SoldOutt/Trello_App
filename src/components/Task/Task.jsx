@@ -1,13 +1,12 @@
 import React from 'react'
 import './Task.scss'
-const Task = () => {
+const Task = ({ task }) => {
+    const { title, cover } = task
     return (
         <li className="task-item">
-            <img
-                src="https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg"
-                alt=""
-            />
-            Ảnh số 1
+            {cover ? <img src={cover} alt="" /> : ''}
+
+            {title}
         </li>
     )
 }
