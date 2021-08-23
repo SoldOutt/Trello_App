@@ -1,4 +1,5 @@
 import './App.scss'
+import React from 'react'
 import Navbar from './components/Navbar/Navbar'
 import ToolBar from './components/ToolBar/ToolBar'
 import Dashboard from './components/Dashboard/Dashboard'
