@@ -4,6 +4,7 @@ import './Dashboard.scss'
 import { initData } from '../../actions/initData'
 import { mapOrder } from '../../util/sort'
 import { Container, Draggable } from 'react-smooth-dnd'
+import { applyDrag } from '../../util/drag'
 const DashBoard = () => {
     const [columnState, setColumnState] = useState([])
     const [boardState, setBoardState] = useState({})
@@ -16,31 +17,59 @@ const DashBoard = () => {
             mapOrder(boardFromDb.columns, boardFromDb.columnOrder, 'id')
         )
     }, [])
-    const onColumnDrop = (data) => {
-        console.log(data)
+    const onColumnDrop = (dragResult) => {
+        // console.log(data)
+        let newBoard = { ...boardState }
+        let newColumn = [...columnState]
+        newColumn = applyDrag(newColumn, dragResult)
+        newBoard.columnOrder = newColumn.map((column) => column.id)
+        newBoard.columns = newColumn
+        setColumnState(newColumn)
+        setBoardState(newBoard)
+    }
+    const onTaskDrop = (idxColumn, dragResult) => {
+        const { removedIndex, addedIndex } = dragResult
+        if (removedIndex !== null || addedIndex !== null) {
+            console.log(idxColumn, dragResult)
+            let newBoard = { ...boardState }
+            let newColumn = [...columnState]
+            let currentColumn = newColumn.find((x) => x.id === idxColumn)
+            currentColumn.tasks = applyDrag(currentColumn.tasks, dragResult)
+            currentColumn.taskOrder = currentColumn.tasks.map((x) => x.id)
+            newBoard.columnOrder = newColumn.map((column) => column.id)
+            setColumnState(newColumn)
+            setBoardState(newBoard)
+            console.log(newBoard)
+        }
     }
     return (
         <div className="dashboard">
             {!columnState ? (
-                <h1>No column here</h1>
+                <div className="add_column">Add new Column</div>
             ) : (
-                <Container
-                    orientation="horizontal"
-                    onDrop={onColumnDrop}
-                    dragHandleSelector=".column-drag-handle"
-                    getChildPayload={(index) => columnState[index]}
-                    dropPlaceholder={{
-                        animationDuration: 150,
-                        showOnTop: true,
-                        className: 'column-drop-preview',
-                    }}
-                >
-                    {columnState.map((column, idx) => (
-                        <Draggable key={idx}>
-                            <Column column={column}></Column>
-                        </Draggable>
-                    ))}
-                </Container>
+                <>
+                    <Container
+                        orientation="horizontal"
+                        onDrop={onColumnDrop}
+                        dragHandleSelector=".column-drag-handle"
+                        getChildPayload={(index) => columnState[index]}
+                        dropPlaceholder={{
+                            animationDuration: 150,
+                            showOnTop: true,
+                            className: 'column-drop-preview',
+                        }}
+                    >
+                        {columnState.map((column, idx) => (
+                            <Draggable key={idx}>
+                                <Column
+                                    onTaskDrop={onTaskDrop}
+                                    column={column}
+                                ></Column>
+                            </Draggable>
+                        ))}
+                    </Container>
+                    <div className="add_column">Add new Column</div>
+                </>
             )}
         </div>
     )

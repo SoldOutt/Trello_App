@@ -3,20 +3,18 @@ import Task from '../Task/Task'
 import './Column.scss'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { mapOrder } from '../../util/sort'
-const Column = ({ column }) => {
+const Column = ({ column, onTaskDrop }) => {
     var { title, tasks, taskOrder } = column
     tasks = mapOrder(tasks, taskOrder, 'id')
-    const dropTask = (data) => {
-        console.log(data)
-    }
+
     return (
         <div className="column">
             <h3 className="header column-drag-handle">{title}</h3>
             <div className="task-list">
                 <Container
                     groupName="col"
-                    onDrop={dropTask}
-                    getChildPayload={(index) => tasks[index]}
+                    onDrop={(dropResult) => onTaskDrop(column.id, dropResult)}
+                    getChildPayload={(index) => (tasks.id, tasks[index])}
                     dragClass="card-ghost"
                     dropClass="card-ghost-drop"
                     dropPlaceholder={{
