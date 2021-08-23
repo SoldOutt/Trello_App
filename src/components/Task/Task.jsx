@@ -3,11 +3,18 @@ import './Task.scss'
 const Task = ({ task }) => {
     const { title, cover } = task
     return (
-        <li className="task-item">
-            {cover ? <img src={cover} alt="" /> : ''}
-
+        <div className="task-item">
+            {cover ? (
+                <img
+                    src={cover}
+                    onMouseDown={(e) => e.preventDefault()}
+                    alt=""
+                />
+            ) : (
+                ''
+            )}
             {title}
-        </li>
+        </div>
     )
 }
 
