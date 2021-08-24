@@ -64,6 +64,29 @@ const DashBoard = () => {
             columns: [...boardState.columns, newColumnToAdd],
         })
     }
+    const removeColumn = (id) => {
+        console.log(id)
+        let newColumns = [...columnState]
+        let newBoard = { ...boardState }
+        newColumns = newColumns.filter((column) => {
+            return column.id !== id
+        })
+        setColumnState(newColumns)
+        newBoard.columnOrder = newColumns.map((column) => column.id)
+        newBoard.columns = newColumns
+        setBoardState(newBoard)
+    }
+    const changeNameColumn = (id, title) => {
+        console.log(id, title)
+        let newColumns = [...columnState]
+        let newBoard = { ...boardState }
+        newColumns = newColumns.map((column) => {
+            return column.id === id ? { ...column, title } : column
+        })
+        setColumnState(newColumns)
+        console.log(newColumns)
+        setBoardState({ ...boardState, columns: newColumns })
+    }
     const submit = (event) => {
         event.preventDefault()
         addNewTask()
@@ -78,6 +101,7 @@ const DashBoard = () => {
                         orientation="horizontal"
                         onDrop={onColumnDrop}
                         dragHandleSelector=".column-drag-handle"
+                        nonDragAreaSelector=".nonDragAreaSelector"
                         getChildPayload={(index) => columnState[index]}
                         dropPlaceholder={{
                             animationDuration: 150,
@@ -88,8 +112,10 @@ const DashBoard = () => {
                         {columnState.map((column, idx) => (
                             <Draggable key={idx}>
                                 <Column
+                                    removeColumn={removeColumn}
                                     onTaskDrop={onTaskDrop}
                                     column={column}
+                                    changeNameColumn={changeNameColumn}
                                 ></Column>
                             </Draggable>
                         ))}
