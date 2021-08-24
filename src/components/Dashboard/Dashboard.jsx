@@ -8,6 +8,8 @@ import { applyDrag } from '../../util/drag'
 const DashBoard = () => {
     const [columnState, setColumnState] = useState([])
     const [boardState, setBoardState] = useState({})
+    const [isShowAddColumn, setIsShowAddColumn] = useState(false)
+    const [nameNewTask, setNameNewTask] = useState('')
     useEffect(() => {
         const boardFromDb = initData.boards.find((board) => {
             return board.id === 'board-1'
@@ -42,6 +44,30 @@ const DashBoard = () => {
             console.log(newBoard)
         }
     }
+    const toggleForm = () => {
+        setIsShowAddColumn(!isShowAddColumn)
+    }
+    const addNewTask = () => {
+        console.log(nameNewTask)
+        setNameNewTask('')
+        var newColumnToAdd = {
+            id: Math.random().toString(36).substring(),
+            boardId: boardState.id,
+            title: nameNewTask.trim(),
+            taskOrder: [],
+            tasks: [],
+        }
+        setColumnState([...columnState, newColumnToAdd])
+        setBoardState({
+            ...boardState,
+            columnOrder: [...boardState.columnOrder, newColumnToAdd.id],
+            columns: [...boardState.columns, newColumnToAdd],
+        })
+    }
+    const submit = (event) => {
+        event.preventDefault()
+        addNewTask()
+    }
     return (
         <div className="dashboard">
             {!columnState ? (
@@ -68,7 +94,40 @@ const DashBoard = () => {
                             </Draggable>
                         ))}
                     </Container>
-                    <div className="add_column">Add new Column</div>
+                    <div className="add_column">
+                        <div onClick={toggleForm}>Add new Column</div>
+                        {isShowAddColumn && (
+                            <div className="form_input">
+                                <form action="" onSubmit={submit}>
+                                    <input
+                                        type="text"
+                                        placeholder="Add Column"
+                                        autoFocus
+                                        value={nameNewTask}
+                                        onChange={(e) => {
+                                            setNameNewTask(e.target.value)
+                                        }}
+                                    />
+                                    <div className="action">
+                                        <button
+                                            type="button"
+                                            className="btn sub"
+                                            onClick={addNewTask}
+                                        >
+                                            Add new Column
+                                        </button>
+                                        <button
+                                            onClick={toggleForm}
+                                            type="button"
+                                            className="btn cancel"
+                                        >
+                                            x
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        )}
+                    </div>
                 </>
             )}
         </div>
