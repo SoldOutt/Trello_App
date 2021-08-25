@@ -9,7 +9,7 @@ const DashBoard = () => {
     const [columnState, setColumnState] = useState([])
     const [boardState, setBoardState] = useState({})
     const [isShowAddColumn, setIsShowAddColumn] = useState(false)
-    const [nameNewTask, setNameNewTask] = useState('')
+    const [nameNewColumn, setNameNewColumn] = useState('')
     useEffect(() => {
         const boardFromDb = initData.boards.find((board) => {
             return board.id === 'board-1'
@@ -47,13 +47,12 @@ const DashBoard = () => {
     const toggleForm = () => {
         setIsShowAddColumn(!isShowAddColumn)
     }
-    const addNewTask = () => {
-        console.log(nameNewTask)
-        setNameNewTask('')
+    const addNewColumn = () => {
+        setNameNewColumn('')
         var newColumnToAdd = {
             id: Math.random().toString(36).substring(),
             boardId: boardState.id,
-            title: nameNewTask.trim(),
+            title: nameNewColumn.trim(),
             taskOrder: [],
             tasks: [],
         }
@@ -87,9 +86,34 @@ const DashBoard = () => {
         console.log(newColumns)
         setBoardState({ ...boardState, columns: newColumns })
     }
-    const submit = (event) => {
+    const addColumn = (event) => {
         event.preventDefault()
-        addNewTask()
+        addNewColumn()
+    }
+    const addNewTask = (idColumn, nameTask) => {
+        console.log(idColumn, nameTask)
+        let newColumns = [...columnState]
+        let newBoard = { ...boardState }
+        let newTask = {
+            id: Math.random().toString(36).substring(),
+            boardId: boardState.id,
+            columnId: idColumn,
+            title: nameTask,
+            cover: null,
+        }
+        newColumns = newColumns.map((column) => {
+            return column.id === idColumn
+                ? {
+                      ...column,
+                      taskOrder: [...column.taskOrder, newTask.id],
+                      tasks: [...column.tasks, newTask],
+                  }
+                : column
+        })
+
+        console.log(newColumns)
+        setColumnState(newColumns)
+        setBoardState({ ...boardState, columns: newColumns })
     }
     return (
         <div className="dashboard">
@@ -115,6 +139,7 @@ const DashBoard = () => {
                                     removeColumn={removeColumn}
                                     onTaskDrop={onTaskDrop}
                                     column={column}
+                                    addNewTask={addNewTask}
                                     changeNameColumn={changeNameColumn}
                                 ></Column>
                             </Draggable>
@@ -124,21 +149,21 @@ const DashBoard = () => {
                         <div onClick={toggleForm}>Add new Column</div>
                         {isShowAddColumn && (
                             <div className="form_input">
-                                <form action="" onSubmit={submit}>
+                                <form action="" onSubmit={addColumn}>
                                     <input
                                         type="text"
                                         placeholder="Add Column"
                                         autoFocus
-                                        value={nameNewTask}
+                                        value={nameNewColumn}
                                         onChange={(e) => {
-                                            setNameNewTask(e.target.value)
+                                            setNameNewColumn(e.target.value)
                                         }}
                                     />
                                     <div className="action">
                                         <button
                                             type="button"
                                             className="btn sub"
-                                            onClick={addNewTask}
+                                            onClick={addNewColumn}
                                         >
                                             Add new Column
                                         </button>
