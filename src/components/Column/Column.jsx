@@ -3,13 +3,20 @@ import Task from '../Task/Task'
 import './Column.scss'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { mapOrder } from '../../util/sort'
-const Column = ({ column, onTaskDrop, removeColumn, changeNameColumn }) => {
+const Column = ({
+    column,
+    onTaskDrop,
+    removeColumn,
+    changeNameColumn,
+    addNewTask,
+}) => {
     var { title, tasks, taskOrder, id } = column
     tasks = mapOrder(tasks, taskOrder, 'id')
     const [showAction, setShowAction] = useState(false)
     const [newNameColumn, setNewNameColumn] = useState('haha')
     const [showInput, setShowInput] = useState(false)
-
+    const [showAddTask, setShowAddTask] = useState(false)
+    const [nameNewTask, setNameNewTask] = useState('')
     const toggleMenuAction = () => {
         setShowAction(!showAction)
     }
@@ -19,19 +26,32 @@ const Column = ({ column, onTaskDrop, removeColumn, changeNameColumn }) => {
     useEffect(() => {
         setNewNameColumn(title)
     }, [title])
-    const onChangeName = () => {
-        setShowInput(true)
-    }
+    // const onChangeName = () => {
+    //     setShowInput(true)
+    // }
     const onChangeNameColumn = () => {
         setShowInput(true)
     }
     const blurInput = () => {
         setShowInput(false)
     }
+    const onToggleAddTask = () => {
+        setShowAddTask(!showAddTask)
+    }
+    const closeAddTask = () => {
+        setShowAddTask(false)
+        setNameNewTask('')
+    }
+    const blur = () => {
+        setShowAddTask(false)
+    }
+    // const addTask = () => {
+    //     addNewTask
+    // }
     return (
         <div className="column">
             <div className="header column-drag-handle">
-                <h3 onClick={onChangeName}>{title}</h3>
+                <h3 onClick={onChangeNameColumn}>{title}</h3>
                 {showInput && (
                     <div className="newNameColumn">
                         <input
@@ -92,10 +112,47 @@ const Column = ({ column, onTaskDrop, removeColumn, changeNameColumn }) => {
                             <Task task={task} />
                         </Draggable>
                     ))}
+                    {showAddTask ? (
+                        <div className="form_add">
+                            <input
+                                autoFocus
+                                type="text"
+                                value={nameNewTask}
+                                onChange={(e) => setNameNewTask(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        addNewTask(id, nameNewTask)
+                                        setNameNewTask('')
+                                        setShowAddTask(false)
+                                    }
+                                }}
+                                placeholder="Add new Task"
+                            />
+                        </div>
+                    ) : (
+                        ''
+                    )}
                 </Container>
             </div>
             <div className="footer">
-                <button>Add new task</button>
+                {showAddTask ? (
+                    <div onBlur={blur} className="form_add">
+                        <div className="action">
+                            <button type="button" className="btn sub">
+                                Add new Column
+                            </button>
+                            <button
+                                onClick={closeAddTask}
+                                type="button"
+                                className="btn cancel"
+                            >
+                                x
+                            </button>
+                        </div>
+                    </div>
+                ) : (
+                    <h4 onClick={onToggleAddTask}>Add new task</h4>
+                )}
             </div>
         </div>
     )
