@@ -5,26 +5,27 @@ import { initData } from '../../actions/initData'
 import { mapOrder } from '../../util/sort'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { applyDrag } from '../../util/drag'
+import { fetchBoard } from '../../actions/apiCall'
 const DashBoard = () => {
     const [columnState, setColumnState] = useState([])
     const [boardState, setBoardState] = useState({})
     const [isShowAddColumn, setIsShowAddColumn] = useState(false)
     const [nameNewColumn, setNameNewColumn] = useState('')
     useEffect(() => {
-        const boardFromDb = initData.boards.find((board) => {
-            return board.id === 'board-1'
+        fetchBoard('6129adc4a562e04cc024d991').then((board) => {
+            console.log(board.data)
+            setBoardState(board.data)
+            setColumnState(
+                mapOrder(board.data.columns, board.data.columnOrder, '_id')
+            )
         })
-        setBoardState(boardFromDb)
-        setColumnState(
-            mapOrder(boardFromDb.columns, boardFromDb.columnOrder, 'id')
-        )
     }, [])
     const onColumnDrop = (dragResult) => {
         // console.log(data)
         let newBoard = { ...boardState }
         let newColumn = [...columnState]
         newColumn = applyDrag(newColumn, dragResult)
-        newBoard.columnOrder = newColumn.map((column) => column.id)
+        newBoard.columnOrder = newColumn.map((column) => column._id)
         newBoard.columns = newColumn
         setColumnState(newColumn)
         setBoardState(newBoard)
@@ -35,10 +36,10 @@ const DashBoard = () => {
             console.log(idxColumn, dragResult)
             let newBoard = { ...boardState }
             let newColumn = [...columnState]
-            let currentColumn = newColumn.find((x) => x.id === idxColumn)
+            let currentColumn = newColumn.find((x) => x._id === idxColumn)
             currentColumn.tasks = applyDrag(currentColumn.tasks, dragResult)
-            currentColumn.taskOrder = currentColumn.tasks.map((x) => x.id)
-            newBoard.columnOrder = newColumn.map((column) => column.id)
+            currentColumn.taskOrder = currentColumn.tasks.map((x) => x._id)
+            newBoard.columnOrder = newColumn.map((column) => column._id)
             setColumnState(newColumn)
             setBoardState(newBoard)
             console.log(newBoard)
@@ -51,7 +52,7 @@ const DashBoard = () => {
         setNameNewColumn('')
         var newColumnToAdd = {
             id: Math.random().toString(36).substring(),
-            boardId: boardState.id,
+            boardId: boardState._id,
             title: nameNewColumn.trim(),
             taskOrder: [],
             tasks: [],
@@ -59,7 +60,7 @@ const DashBoard = () => {
         setColumnState([...columnState, newColumnToAdd])
         setBoardState({
             ...boardState,
-            columnOrder: [...boardState.columnOrder, newColumnToAdd.id],
+            columnOrder: [...boardState.columnOrder, newColumnToAdd._id],
             columns: [...boardState.columns, newColumnToAdd],
         })
     }
@@ -68,10 +69,10 @@ const DashBoard = () => {
         let newColumns = [...columnState]
         let newBoard = { ...boardState }
         newColumns = newColumns.filter((column) => {
-            return column.id !== id
+            return column._id !== id
         })
         setColumnState(newColumns)
-        newBoard.columnOrder = newColumns.map((column) => column.id)
+        newBoard.columnOrder = newColumns.map((column) => column._id)
         newBoard.columns = newColumns
         setBoardState(newBoard)
     }
@@ -80,7 +81,7 @@ const DashBoard = () => {
         let newColumns = [...columnState]
         let newBoard = { ...boardState }
         newColumns = newColumns.map((column) => {
-            return column.id === id ? { ...column, title } : column
+            return column._id === id ? { ...column, title } : column
         })
         setColumnState(newColumns)
         console.log(newColumns)
@@ -96,16 +97,16 @@ const DashBoard = () => {
         let newBoard = { ...boardState }
         let newTask = {
             id: Math.random().toString(36).substring(),
-            boardId: boardState.id,
+            boardId: boardState._id,
             columnId: idColumn,
             title: nameTask,
             cover: null,
         }
         newColumns = newColumns.map((column) => {
-            return column.id === idColumn
+            return column._id === idColumn
                 ? {
                       ...column,
-                      taskOrder: [...column.taskOrder, newTask.id],
+                      taskOrder: [...column.taskOrder, newTask._id],
                       tasks: [...column.tasks, newTask],
                   }
                 : column
