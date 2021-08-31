@@ -11,7 +11,7 @@ const Column = ({
     addNewTask,
 }) => {
     var { title, tasks, taskOrder, id } = column
-    tasks = mapOrder(tasks, taskOrder, 'id')
+    tasks = mapOrder(tasks, taskOrder, '_id')
     const [showAction, setShowAction] = useState(false)
     const [newNameColumn, setNewNameColumn] = useState('haha')
     const [showInput, setShowInput] = useState(false)
@@ -21,7 +21,7 @@ const Column = ({
         setShowAction(!showAction)
     }
     const onRemoveColumn = () => {
-        removeColumn(column.id)
+        removeColumn(column._id)
     }
     useEffect(() => {
         setNewNameColumn(title)
@@ -96,8 +96,8 @@ const Column = ({
             <div className="task-list">
                 <Container
                     groupName="col"
-                    onDrop={(dropResult) => onTaskDrop(column.id, dropResult)}
-                    getChildPayload={(index) => (tasks.id, tasks[index])}
+                    onDrop={(dropResult) => onTaskDrop(column._id, dropResult)}
+                    getChildPayload={(index) => (tasks._id, tasks[index])}
                     dragClass="card-ghost"
                     dropClass="card-ghost-drop"
                     dropPlaceholder={{
