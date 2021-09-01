@@ -3,6 +3,7 @@ import Task from '../Task/Task'
 import './Column.scss'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { mapOrder } from '../../util/sort'
+import * as action from '../../actions/apiCall'
 const Column = ({
     column,
     onTaskDrop,
@@ -10,7 +11,8 @@ const Column = ({
     changeNameColumn,
     addNewTask,
 }) => {
-    var { title, tasks, taskOrder, id } = column
+    var { title, tasks, taskOrder, _id } = column
+    console.log(_id)
     tasks = mapOrder(tasks, taskOrder, '_id')
     const [showAction, setShowAction] = useState(false)
     const [newNameColumn, setNewNameColumn] = useState('haha')
@@ -22,6 +24,7 @@ const Column = ({
     }
     const onRemoveColumn = () => {
         removeColumn(column._id)
+        action.deleteColumn(_id)
     }
     useEffect(() => {
         setNewNameColumn(title)
@@ -65,7 +68,10 @@ const Column = ({
                             }}
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter') {
-                                    changeNameColumn(id, newNameColumn)
+                                    changeNameColumn(_id, newNameColumn)
+                                    action.updateColumn(_id, {
+                                        title: newNameColumn,
+                                    })
                                     setShowInput(false)
                                 }
                             }}
@@ -121,7 +127,7 @@ const Column = ({
                                 onChange={(e) => setNameNewTask(e.target.value)}
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
-                                        addNewTask(id, nameNewTask)
+                                        addNewTask(_id, nameNewTask)
                                         setNameNewTask('')
                                         setShowAddTask(false)
                                     }
@@ -139,7 +145,7 @@ const Column = ({
                     <div onBlur={blur} className="form_add">
                         <div className="action">
                             <button type="button" className="btn sub">
-                                Add new Column
+                                Add new task
                             </button>
                             <button
                                 onClick={closeAddTask}

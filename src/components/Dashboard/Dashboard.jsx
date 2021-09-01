@@ -5,14 +5,15 @@ import { initData } from '../../actions/initData'
 import { mapOrder } from '../../util/sort'
 import { Container, Draggable } from 'react-smooth-dnd'
 import { applyDrag } from '../../util/drag'
-import { fetchBoard } from '../../actions/apiCall'
+import * as action from '../../actions/apiCall'
+
 const DashBoard = () => {
     const [columnState, setColumnState] = useState([])
     const [boardState, setBoardState] = useState({})
     const [isShowAddColumn, setIsShowAddColumn] = useState(false)
     const [nameNewColumn, setNameNewColumn] = useState('')
     useEffect(() => {
-        fetchBoard('6129adc4a562e04cc024d991').then((board) => {
+        action.fetchBoard('6129adc4a562e04cc024d991').then((board) => {
             console.log(board.data)
             setBoardState(board.data)
             setColumnState(
@@ -48,15 +49,11 @@ const DashBoard = () => {
     const toggleForm = () => {
         setIsShowAddColumn(!isShowAddColumn)
     }
-    const addNewColumn = () => {
-        setNameNewColumn('')
-        var newColumnToAdd = {
-            id: Math.random().toString(36).substring(),
+    const addNewColumn = async () => {
+        const newColumnToAdd = await action.createNewColumn({
             boardId: boardState._id,
-            title: nameNewColumn.trim(),
-            taskOrder: [],
-            tasks: [],
-        }
+            title: nameNewColumn,
+        })
         setColumnState([...columnState, newColumnToAdd])
         setBoardState({
             ...boardState,
@@ -76,7 +73,7 @@ const DashBoard = () => {
         newBoard.columns = newColumns
         setBoardState(newBoard)
     }
-    const changeNameColumn = (id, title) => {
+    const changeNameColumn = async (id, title) => {
         console.log(id, title)
         let newColumns = [...columnState]
         let newBoard = { ...boardState }
@@ -91,17 +88,13 @@ const DashBoard = () => {
         event.preventDefault()
         addNewColumn()
     }
-    const addNewTask = (idColumn, nameTask) => {
-        console.log(idColumn, nameTask)
-        let newColumns = [...columnState]
-        let newBoard = { ...boardState }
-        let newTask = {
-            id: Math.random().toString(36).substring(),
+    const addNewTask = async (idColumn, nameTask) => {
+        const newTask = await action.createNewTask({
             boardId: boardState._id,
             columnId: idColumn,
             title: nameTask,
-            cover: null,
-        }
+        })
+        let newColumns = [...columnState]
         newColumns = newColumns.map((column) => {
             return column._id === idColumn
                 ? {
@@ -111,8 +104,6 @@ const DashBoard = () => {
                   }
                 : column
         })
-
-        console.log(newColumns)
         setColumnState(newColumns)
         setBoardState({ ...boardState, columns: newColumns })
     }
