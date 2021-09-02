@@ -2,7 +2,12 @@ import axios from 'axios'
 import { API_ROOT } from '../../util/constand'
 export const fetchBoard = async (id) => {
     const res = await axios.get(`${API_ROOT}/board/${id}`)
-    console.log(res)
+
+    return res.data
+}
+export const updateBoard = async (id, data) => {
+    const res = await axios.put(`${API_ROOT}/board/${id}`, data)
+
     return res.data
 }
 export const createNewTask = async (data) => {
@@ -27,5 +32,6 @@ export const updateColumn = async (id, data) => {
 }
 export const deleteColumn = async (id) => {
     const res = await axios.delete(`${API_ROOT}/column/${id}`)
+
     return res.data.data
 }
