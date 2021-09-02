@@ -12,7 +12,7 @@ const Column = ({
     addNewTask,
 }) => {
     var { title, tasks, taskOrder, _id } = column
-    console.log(_id)
+
     tasks = mapOrder(tasks, taskOrder, '_id')
     const [showAction, setShowAction] = useState(false)
     const [newNameColumn, setNewNameColumn] = useState('haha')

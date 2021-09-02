@@ -21,29 +21,62 @@ const DashBoard = () => {
             )
         })
     }, [])
-    const onColumnDrop = (dragResult) => {
+    const onColumnDrop = async (dragResult) => {
         // console.log(data)
         let newBoard = { ...boardState }
         let newColumn = [...columnState]
         newColumn = applyDrag(newColumn, dragResult)
         newBoard.columnOrder = newColumn.map((column) => column._id)
         newBoard.columns = newColumn
+
         setColumnState(newColumn)
         setBoardState(newBoard)
+        if (dragResult.addedIndex !== dragResult.removedIndex)
+            action
+                .updateBoard(newBoard._id, {
+                    columnOrder: newBoard.columnOrder,
+                })
+                .catch(() => {
+                    setColumnState(columnState)
+                    setBoardState(boardState)
+                })
     }
-    const onTaskDrop = (idxColumn, dragResult) => {
+    const onTaskDrop = async (idxColumn, dragResult) => {
         const { removedIndex, addedIndex } = dragResult
         if (removedIndex !== null || addedIndex !== null) {
             console.log(idxColumn, dragResult)
-            let newBoard = { ...boardState }
+
             let newColumn = [...columnState]
             let currentColumn = newColumn.find((x) => x._id === idxColumn)
             currentColumn.tasks = applyDrag(currentColumn.tasks, dragResult)
             currentColumn.taskOrder = currentColumn.tasks.map((x) => x._id)
-            newBoard.columnOrder = newColumn.map((column) => column._id)
             setColumnState(newColumn)
-            setBoardState(newBoard)
-            console.log(newBoard)
+            if (removedIndex !== addedIndex) {
+                if (removedIndex !== null && addedIndex !== null) {
+                    action
+                        .updateColumn(currentColumn._id, {
+                            taskOrder: currentColumn.taskOrder,
+                        })
+                        .catch(() => {
+                            setColumnState(...columnState)
+                        })
+                } else {
+                    if (addedIndex !== null) {
+                        action
+                            .updateColumn(currentColumn._id, {
+                                taskOrder: currentColumn.taskOrder,
+                            })
+                            .catch(() => {
+                                setColumnState(...columnState)
+                            })
+                        const taskUpdate = dragResult.payload
+                        taskUpdate.columnId = idxColumn
+                        action.updateTask(taskUpdate).catch(() => {
+                            setColumnState(...columnState)
+                        })
+                    }
+                }
+            }
         }
     }
     const toggleForm = () => {
