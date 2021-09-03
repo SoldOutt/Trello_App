@@ -1,9 +1,9 @@
 import React from 'react'
 import './ToolBar.scss'
-const ToolBar = () => {
+const ToolBar = ({ boardName }) => {
     return (
         <div className="tools_bar">
-            <h1>Tools Bar</h1>
+            <h1>{boardName}</h1>
         </div>
     )
 }

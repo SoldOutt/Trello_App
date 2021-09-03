@@ -23,8 +23,14 @@ const Column = ({
         setShowAction(!showAction)
     }
     const onRemoveColumn = () => {
-        removeColumn(column._id)
-        action.deleteColumn(_id)
+        const isRemove = window.confirm(
+            `Bạn có chắc chắn muốn xóa bảng này? Hành động không thể phục hồi!!!`
+        )
+        if (isRemove) {
+            removeColumn(column._id)
+            action.deleteColumn(_id)
+        }
+        setShowAction(false)
     }
     useEffect(() => {
         setNewNameColumn(title)
@@ -34,6 +40,7 @@ const Column = ({
     // }
     const onChangeNameColumn = () => {
         setShowInput(true)
+        setShowAction(false)
     }
     const blurInput = () => {
         setShowInput(false)

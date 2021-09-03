@@ -1,9 +1,18 @@
 import axios from 'axios'
 import { API_ROOT } from '../../util/constand'
+export const getAllBoard = async () => {
+    const res = await axios.get(`${API_ROOT}/board`)
+    console.log(res.data.data)
+    return res.data.data
+}
 export const fetchBoard = async (id) => {
     const res = await axios.get(`${API_ROOT}/board/${id}`)
 
     return res.data
+}
+export const createBoard = async (data) => {
+    const res = await axios.post(`${API_ROOT}/board`, data)
+    return res.data.data
 }
 export const updateBoard = async (id, data) => {
     const res = await axios.put(`${API_ROOT}/board/${id}`, data)
