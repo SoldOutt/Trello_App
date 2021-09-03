@@ -1,5 +1,10 @@
 import axios from 'axios'
 import { API_ROOT } from '../../util/constand'
+export const getAllBoard = async () => {
+    const res = await axios.get(`${API_ROOT}/board`)
+    console.log(res.data.data)
+    return res.data.data
+}
 export const fetchBoard = async (id) => {
     const res = await axios.get(`${API_ROOT}/board/${id}`)
 
