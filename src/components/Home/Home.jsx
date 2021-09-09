@@ -8,8 +8,8 @@ const Home = () => {
     const [allBoard, setAllBoard] = useState([])
     useEffect(() => {
         action.getAllBoard().then((boards) => {
-            setAllBoard(boards)
             console.log(boards)
+            setAllBoard(boards.data)
         })
     }, [])
     const [showFormBoard, setShowFormBoard] = useState(false)

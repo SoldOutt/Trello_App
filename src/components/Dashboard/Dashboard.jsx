@@ -16,13 +16,12 @@ const DashBoard = () => {
     const { id } = useParams()
     useEffect(() => {
         action.fetchBoard(id).then((board) => {
-            console.log(board.data)
             setBoardState(board.data)
             setColumnState(
                 mapOrder(board.data.columns, board.data.columnOrder, '_id')
             )
         })
-    }, [])
+    }, [id])
     const onColumnDrop = async (dragResult) => {
         // console.log(data)
         let newBoard = { ...boardState }
@@ -136,8 +135,8 @@ const DashBoard = () => {
             return column._id === idColumn
                 ? {
                       ...column,
-                      taskOrder: [...column.taskOrder, newTask._id],
-                      tasks: [...column.tasks, newTask],
+                      taskOrder: [...column.taskOrder, newTask.data._id],
+                      tasks: [...column.tasks, newTask.data],
                   }
                 : column
         })

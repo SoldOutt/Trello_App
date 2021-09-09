@@ -22,7 +22,7 @@ const Navbar = () => {
             <div className="logo">
                 <Link to="/">Trello Clone</Link>
             </div>
-            <ul>
+            <ul className="nav_menu_2">
                 <li>
                     <i class="fas fa-plus"></i>
                 </li>
