@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './components/Home/Home'
 import AuthContextProvider from './contexts/AuthContext'
 import ProtectRouter from './router/ProtectRouter'
+import Login from './components/Login/Login'
 function App() {
     return (
         <AuthContextProvider>
@@ -14,19 +15,30 @@ function App() {
                 <div className="App">
                     <Navbar></Navbar>
                     <Switch>
-                        <Route
+                        <Route exact path="/login" component={Login}></Route>
+                        <ProtectRouter
                             exact
                             path="/"
-                            render={(props) => <Home></Home>}
-                        />
-                    </Switch>
-                    <Switch>
-                        <Route
-                            exact
-                            path="/board/:id"
                             render={(props) => (
                                 <>
-                                    <Dashboard></Dashboard>
+                                    <Switch>
+                                        <Route
+                                            exact
+                                            path="/"
+                                            render={(props) => <Home></Home>}
+                                        />
+                                    </Switch>
+                                    <Switch>
+                                        <Route
+                                            exact
+                                            path="/board/:id"
+                                            render={(props) => (
+                                                <>
+                                                    <Dashboard></Dashboard>
+                                                </>
+                                            )}
+                                        />
+                                    </Switch>
                                 </>
                             )}
                         />

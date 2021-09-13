@@ -3,11 +3,9 @@ import { Route, Redirect } from 'react-router-dom'
 import { AuthContext } from '../contexts/AuthContext'
 import Spinner from 'react-bootstrap/esm/Spinner'
 const ProtectRouter = ({ commponent: Component, ...rest }) => {
-    const {
-        authSate: { authLoading, isAuthenticated },
-    } = useContext(AuthContext)
+    const { authState } = useContext(AuthContext)
 
-    if (authLoading) {
+    if (authState.authLoading) {
         return (
             <div className="center_box">
                 <Spinner animation="border" variant="info" />
@@ -18,7 +16,7 @@ const ProtectRouter = ({ commponent: Component, ...rest }) => {
         <Route
             {...rest}
             render={(props) =>
-                isAuthenticated ? (
+                authState.isAuthenticated ? (
                     <>
                         <Component {...rest} {...props} />{' '}
                     </>
