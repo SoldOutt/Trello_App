@@ -1,21 +1,39 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 // import './login.scss'
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../../contexts/AuthContext'
+
 const Login = () => {
-    const [name, setName] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const submit = (event) => {
+    const formLogin = async (event) => {
         event.preventDefault()
+        try {
+            const loginData = await login({ username, password })
+            console.log(loginData)
+            if (loginData.success) {
+                history.push('/home')
+            } else {
+                console.log('Co loi roi')
+            }
+        } catch (err) {
+            console.log(err)
+        }
     }
+    const history = useHistory()
+    const { login } = useContext(AuthContext)
     return (
         <div>
             <div class="wrapper">
-                <form class="form-signin" method="post">
+                <form class="form-signin" onSubmit={formLogin}>
                     <h2 class="form-signin-heading">Please login</h2>
                     <input
                         type="text"
                         class="form-control"
                         name="username"
                         placeholder="Email Address"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
                         required=""
                         autofocus=""
                     />
@@ -24,17 +42,11 @@ const Login = () => {
                         class="form-control"
                         name="password"
                         placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                         required=""
                     />
-                    <label class="checkbox">
-                        <input
-                            type="checkbox"
-                            value="remember-me"
-                            id="rememberMe"
-                            name="rememberMe"
-                        />{' '}
-                        Remember me
-                    </label>
+
                     <button
                         class="btn btn-lg btn-primary btn-block"
                         type="submit"

@@ -39,10 +39,13 @@ const AuthContextProvider = ({ children }) => {
         loaderUser()
     }, [])
     const login = async (data) => {
+        console.log(data)
         const res = await action.login(data)
+        console.log(res)
         if (res.data.success) {
             localStorage.setItem('tokenUser', res.data.acessToken)
             loaderUser()
+            return res.data
         } else {
             // if (err.response.data) return err.response.data
             // else {

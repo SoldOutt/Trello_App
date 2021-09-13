@@ -16,32 +16,7 @@ function App() {
                     <Navbar></Navbar>
                     <Switch>
                         <Route exact path="/login" component={Login}></Route>
-                        <ProtectRouter
-                            exact
-                            path="/"
-                            render={(props) => (
-                                <>
-                                    <Switch>
-                                        <Route
-                                            exact
-                                            path="/"
-                                            render={(props) => <Home></Home>}
-                                        />
-                                    </Switch>
-                                    <Switch>
-                                        <Route
-                                            exact
-                                            path="/board/:id"
-                                            render={(props) => (
-                                                <>
-                                                    <Dashboard></Dashboard>
-                                                </>
-                                            )}
-                                        />
-                                    </Switch>
-                                </>
-                            )}
-                        />
+                        <ProtectRouter exact path="/" commponent={Home} />
                     </Switch>
                 </div>
             </Router>
