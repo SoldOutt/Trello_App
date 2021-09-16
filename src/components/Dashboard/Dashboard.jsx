@@ -14,6 +14,7 @@ const DashBoard = () => {
     const [isShowAddColumn, setIsShowAddColumn] = useState(false)
     const [nameNewColumn, setNameNewColumn] = useState('')
     const { id } = useParams()
+    console.log(id)
     useEffect(() => {
         action.fetchBoard(id).then((board) => {
             setBoardState(board.data)

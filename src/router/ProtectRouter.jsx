@@ -18,7 +18,7 @@ const ProtectRouter = ({ commponent: Component, ...rest }) => {
             render={(props) =>
                 authState.isAuthenticated ? (
                     <>
-                        <Component {...rest} {...props} />{' '}
+                        <Component {...rest} {...props} />
                     </>
                 ) : (
                     <Redirect to="/login" />

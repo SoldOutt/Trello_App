@@ -12,7 +12,7 @@ const Login = () => {
             const loginData = await login({ username, password })
             console.log(loginData)
             if (loginData.success) {
-                history.push('/home')
+                history.push('/')
             } else {
                 console.log('Co loi roi')
             }

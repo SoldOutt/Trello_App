@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { createContext, useReducer, useEffect } from 'react'
 import axios from 'axios'
 import { boardReducer } from '../reducer/boardReducer'
@@ -8,7 +8,7 @@ const BoardContextProvider = ({ children }) => {
         board: {},
     })
 
-    const getBoard = async () => {
+    const getBoard = async (id) => {
         try {
             const res = await axios.get(`${API_ROOT}/board/${id}`)
             dispatch({
@@ -21,6 +21,9 @@ const BoardContextProvider = ({ children }) => {
                 : { success: false, message: error.message }
         }
     }
+    // useEffect((id) => {
+    //     getBoard(id)
+    // }, [])
     const createTask = async (nameTask, columnId, boardId) => {
         const newTask = await action.createNewTask({
             boardId,

@@ -6,16 +6,16 @@ const Navbar = () => {
         <div className="navbar">
             <ul>
                 <li>
-                    <i class="fas fa-home"></i>
+                    <i className="fas fa-home"></i>
                 </li>
                 <li>
-                    <i class="fas fa-border-all"></i>
+                    <i className="fas fa-border-all"></i>
                     <span>Bảng</span>
                 </li>
                 <li>
                     <div className="form_group">
                         <input type="text" placeholder="Chuyển đến" />
-                        <i class="fas fa-search"></i>
+                        <i className="fas fa-search"></i>
                     </div>
                 </li>
             </ul>
@@ -24,13 +24,13 @@ const Navbar = () => {
             </div>
             <ul className="nav_menu_2">
                 <li>
-                    <i class="fas fa-plus"></i>
+                    <i className="fas fa-plus"></i>
                 </li>
                 <li>
-                    <i class="fas fa-info-circle"></i>
+                    <i className="fas fa-info-circle"></i>
                 </li>
                 <li>
-                    <i class="far fa-bell"></i>
+                    <i className="far fa-bell"></i>
                 </li>
             </ul>
         </div>

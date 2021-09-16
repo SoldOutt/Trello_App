@@ -16,6 +16,11 @@ function App() {
                     <Navbar></Navbar>
                     <Switch>
                         <Route exact path="/login" component={Login}></Route>
+                        <ProtectRouter
+                            exact
+                            path="/board/:id"
+                            children={<Dashboard />}
+                        />
                         <ProtectRouter exact path="/" commponent={Home} />
                     </Switch>
                 </div>

@@ -3,6 +3,7 @@ import './Home.scss'
 
 import * as action from '../../actions/apiCall'
 import BoardItem from '../BoardItem/BoardItem'
+import { useParams } from 'react-router'
 
 const Home = () => {
     const [allBoard, setAllBoard] = useState([])
@@ -20,6 +21,7 @@ const Home = () => {
         setNameBoard('')
         setShowFormBoard(false)
     }
+    console.log(useParams())
     return (
         <div className="home">
             {showFormBoard && (
