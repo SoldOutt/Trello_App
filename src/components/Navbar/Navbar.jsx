@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './Navbar.scss'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { AuthContext } from '../../contexts/AuthContext'
 const Navbar = () => {
+    // const context = useContext(contextValue)
+    const { logout } = useContext(AuthContext)
+    const history = useHistory()
     return (
         <div className="navbar">
             <ul>
                 <li>
-                    <i className="fas fa-home"></i>
+                    <i
+                        onClick={() => {
+                            history.push('/')
+                        }}
+                        className="fas fa-home"
+                    ></i>
                 </li>
                 <li>
                     <i className="fas fa-border-all"></i>
@@ -31,6 +40,9 @@ const Navbar = () => {
                 </li>
                 <li>
                     <i className="far fa-bell"></i>
+                </li>
+                <li>
+                    <i onClick={logout} className="fas fa-sign-out-alt"></i>
                 </li>
             </ul>
         </div>

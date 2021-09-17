@@ -14,7 +14,13 @@ function App() {
             <Router>
                 <div className="App">
                     <Navbar></Navbar>
-                    <Switch>
+                    <Route exact path="/" component={Home}></Route>
+                    <Route
+                        exact
+                        path="/board/:id"
+                        component={Dashboard}
+                    ></Route>
+                    {/* <Switch>
                         <Route exact path="/login" component={Login}></Route>
                         <ProtectRouter
                             exact
@@ -22,7 +28,7 @@ function App() {
                             children={<Dashboard />}
                         />
                         <ProtectRouter exact path="/" commponent={Home} />
-                    </Switch>
+                    </Switch> */}
                 </div>
             </Router>
         </AuthContextProvider>

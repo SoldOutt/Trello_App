@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-// import './login.scss'
+import './login.scss'
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
 
@@ -46,7 +46,7 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required=""
                     />
-
+                    <br />
                     <button
                         class="btn btn-lg btn-primary btn-block"
                         type="submit"

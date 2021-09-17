@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Column from '../Column/Column'
 import './Dashboard.scss'
 import { mapOrder } from '../../util/sort'
@@ -13,6 +13,7 @@ const DashBoard = () => {
     const [boardState, setBoardState] = useState({})
     const [isShowAddColumn, setIsShowAddColumn] = useState(false)
     const [nameNewColumn, setNameNewColumn] = useState('')
+
     const { id } = useParams()
     console.log(id)
     useEffect(() => {
