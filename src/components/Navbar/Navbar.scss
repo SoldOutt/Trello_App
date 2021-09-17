@@ -3,9 +3,10 @@
     background-color: $bg-nav;
     height: $height-navbar;
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
     ul {
+        flex-basis: 100%;
         list-style: none;
         display: flex;
         align-items: center;
@@ -23,7 +24,6 @@
             &:hover {
                 background-color: rgba(#ccc, 0.7);
             }
-
             input {
                 border: none;
                 background-color: transparent;
@@ -36,8 +36,12 @@
                 }
             }
         }
+        &.nav_menu_2 {
+            justify-content: flex-end;
+        }
     }
     .logo {
+        flex-shrink: 0;
         a {
             text-decoration: none;
             color: #fff;

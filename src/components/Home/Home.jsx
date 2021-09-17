@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import './Home.scss'
 
 import * as action from '../../actions/apiCall'
 import BoardItem from '../BoardItem/BoardItem'
+import { useParams } from 'react-router'
 
 const Home = () => {
     const [allBoard, setAllBoard] = useState([])
     useEffect(() => {
         action.getAllBoard().then((boards) => {
-            setAllBoard(boards)
             console.log(boards)
+            setAllBoard(boards.data)
         })
     }, [])
     const [showFormBoard, setShowFormBoard] = useState(false)
@@ -20,6 +21,7 @@ const Home = () => {
         setNameBoard('')
         setShowFormBoard(false)
     }
+    console.log(useParams())
     return (
         <div className="home">
             {showFormBoard && (
